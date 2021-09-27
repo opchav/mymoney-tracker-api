@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 
 import { Article } from '../../article/entities/article.entity';
+import { Transaction } from '../../transaction/entities/transaction.entity';
 
 @Entity('users')
 export class User {
@@ -43,4 +44,7 @@ export class User {
 
   @OneToMany(() => Article, (article) => article.author)
   articles: Article[];
+
+  @OneToMany(() => Transaction, (tx) => tx.owner)
+  txs: Transaction[];
 }
