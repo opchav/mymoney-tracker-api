@@ -144,6 +144,10 @@ $ npm run migration:revert
 
 - [Project Structure](./docs/project-structure.md)
 
+## Other resources
+
+- [awesome-nest-boilerplate](https://github.com/NarHakobyan/awesome-nest-boilerplate)
+
 ## Contributors
 
 - [Yash Murty](https://github.com/yashmurty)
