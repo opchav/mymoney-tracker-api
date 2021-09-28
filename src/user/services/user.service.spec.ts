@@ -301,6 +301,7 @@ describe('UserService', () => {
         createdAt: currentDate,
         updatedAt: currentDate,
         articles: [],
+        txs: [],
       };
 
       mockedRepository.getById.mockResolvedValue(foundUser);
@@ -316,6 +317,7 @@ describe('UserService', () => {
         createdAt: currentDate,
         updatedAt: currentDate,
         articles: [],
+        txs: [],
       };
 
       jest

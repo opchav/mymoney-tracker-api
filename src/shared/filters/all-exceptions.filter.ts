@@ -5,12 +5,12 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { Request, Response } from 'express';
 
 import { REQUEST_ID_TOKEN_HEADER } from '../constants';
-import { AppLogger } from '../logger/logger.service';
 import { BaseApiError } from '../errors/base-api-error';
+import { AppLogger } from '../logger/logger.service';
 import { createRequestContext } from '../request-context/util';
 
 @Catch()

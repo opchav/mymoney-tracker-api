@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 
 import { TxType } from '../entities/transaction.entity';
-import {OwnerOutput} from './owner-output.dto';
+import { OwnerOutput } from './owner-output.dto';
 
 export class TransactionOutput {
   @Expose()

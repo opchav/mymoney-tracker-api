@@ -9,7 +9,13 @@ import { TransactionModule } from './transaction/transaction.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [SharedModule, UserModule, AuthModule, ArticleModule, TransactionModule],
+  imports: [
+    SharedModule,
+    UserModule,
+    AuthModule,
+    ArticleModule,
+    TransactionModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

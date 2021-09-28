@@ -84,7 +84,7 @@ We can run the project with or without docker.
 
 To run the server without Docker we need this pre-requisite:
 
-- MySQL server running
+- Postgres server running
 
 Commands:
 

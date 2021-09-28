@@ -1,15 +1,14 @@
-import { createConnection, getConnection } from 'typeorm';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-
-import { UserService } from '../src/user/services/user.service';
+import { createConnection, getConnection } from 'typeorm';
 
 import { ROLE } from '../src/auth/constants/role.constant';
-import { CreateUserInput } from '../src/user/dtos/user-create-input.dto';
 import { LoginInput } from '../src/auth/dtos/auth-login-input.dto';
 import { AuthTokenOutput } from '../src/auth/dtos/auth-token-output.dto';
-import { UserOutput } from '../src/user/dtos/user-output.dto';
 import { RequestContext } from '../src/shared/request-context/request-context.dto';
+import { CreateUserInput } from '../src/user/dtos/user-create-input.dto';
+import { UserOutput } from '../src/user/dtos/user-output.dto';
+import { UserService } from '../src/user/services/user.service';
 
 const TEST_DB_CONNECTION_NAME = 'e2e_test_connection';
 export const TEST_DB_NAME = 'e2e_test_db';
@@ -22,11 +21,11 @@ export const resetDBBeforeTest = async (): Promise<void> => {
   console.log(`Dropping ${TEST_DB_NAME} database and recreating it`);
   const connection = await createConnection({
     name: TEST_DB_CONNECTION_NAME,
-    type: 'mysql',
+    type: 'postgres',
     host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'example',
+    port: 5432,
+    username: 'postgres',
+    password: 'secret',
   });
 
   await connection.query(`drop database if exists ${TEST_DB_NAME}`);
@@ -39,11 +38,11 @@ export const createDBEntities = async (): Promise<void> => {
   console.log(`Creating entities in ${TEST_DB_NAME} database`);
   await createConnection({
     name: TEST_DB_CONNECTION_NAME,
-    type: 'mysql',
+    type: 'postgres',
     host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'example',
+    port: 5432,
+    username: 'postgres',
+    password: 'secret',
     database: TEST_DB_NAME,
     entities: [__dirname + '/../src/**/*.entity{.ts,.js}'],
     synchronize: true,
