@@ -147,6 +147,7 @@ $ npm run migration:revert
 ## Other resources
 
 - [awesome-nest-boilerplate](https://github.com/NarHakobyan/awesome-nest-boilerplate)
+- [commit messages](https://github.com/conventional-changelog/commitlint/#what-is-commitlint)
 
 ## Contributors
 
