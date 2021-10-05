@@ -5,6 +5,7 @@ import {
   Get,
   HttpStatus,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -22,7 +23,10 @@ import { PaginationParamsDto } from '../shared/dtos/pagination-params.dto';
 import { AppLogger } from '../shared/logger/logger.service';
 import { ReqContext } from '../shared/request-context/req-context.decorator';
 import { RequestContext } from '../shared/request-context/request-context.dto';
-import { CreateTransactionInput } from './dto/transaction-input.dto';
+import {
+  CreateTransactionInput,
+  UpdateTransactionInput,
+} from './dto/transaction-input.dto';
 import { TransactionOutput } from './dto/transaction-output.dto';
 import { TransactionService } from './transaction.service';
 
@@ -46,7 +50,7 @@ export class TransactionController {
   @UseInterceptors(ClassSerializerInterceptor)
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  async createArticle(
+  async createTransaction(
     @ReqContext() ctx: RequestContext,
     @Body() input: CreateTransactionInput,
   ): Promise<BaseApiResponse<TransactionOutput>> {
@@ -101,6 +105,30 @@ export class TransactionController {
     this.logger.log(ctx, `${this.getTransaction.name} was called`);
 
     const transaction = await this.txService.getTransactionById(ctx, id);
+    return { data: transaction, meta: {} };
+  }
+
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Update transaction API',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: SwaggerBaseApiResponse(TransactionOutput),
+  })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  async updateTransaction(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') transactionId: number,
+    @Body() input: UpdateTransactionInput,
+  ): Promise<BaseApiResponse<TransactionOutput>> {
+    const transaction = await this.txService.updateTransaction(
+      ctx,
+      transactionId,
+      input,
+    );
     return { data: transaction, meta: {} };
   }
 }

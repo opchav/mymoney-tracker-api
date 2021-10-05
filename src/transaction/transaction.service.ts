@@ -106,4 +106,36 @@ export class TransactionService {
       excludeExtraneousValues: true,
     });
   }
+
+  async updateTransaction(
+    ctx: RequestContext,
+    transactionId: number,
+    input: UpdateTransactionInput,
+  ): Promise<TransactionOutput> {
+    this.logger.log(ctx, `${this.updateTransaction.name} was called`);
+
+    this.logger.log(ctx, `calling ${TransactionRepository.name}.getById`);
+    const transaction = await this.repository.getById(transactionId);
+
+    const actor: Actor = ctx.user;
+
+    const isAllowed = this.aclService
+      .forActor(actor)
+      .canDoAction(Action.Update, transaction);
+    if (!isAllowed) {
+      throw new UnauthorizedException();
+    }
+
+    const updatedTransaction: Transaction = {
+      ...transaction,
+      ...plainToClass(Transaction, input),
+    };
+
+    this.logger.log(ctx, `calling ${TransactionRepository.name}.save`);
+    const savedTransaction = await this.repository.save(updatedTransaction);
+
+    return plainToClass(TransactionOutput, savedTransaction, {
+      excludeExtraneousValues: true,
+    });
+  }
 }
