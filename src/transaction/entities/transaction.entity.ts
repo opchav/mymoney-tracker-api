@@ -48,6 +48,6 @@ export class Transaction {
   @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.txs, { lazy: true })
+  @ManyToOne(() => User, (user) => user.txs, { eager: true })
   owner: User;
 }

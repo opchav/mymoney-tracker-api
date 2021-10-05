@@ -24,6 +24,7 @@ import { AppLoggerModule } from './logger/logger.module';
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
         debug: configService.get<string>('env') === 'development',
+        logging: configService.get<string>('env') === 'development',
       }),
     }),
     AppLoggerModule,

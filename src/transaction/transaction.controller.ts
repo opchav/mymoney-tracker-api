@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -40,9 +41,7 @@ export class TransactionController {
   }
 
   @Post()
-  @ApiOperation({
-    summary: 'Create transaction API',
-  })
+  @ApiOperation({ summary: 'Create transaction API' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     type: SwaggerBaseApiResponse(TransactionOutput),
@@ -59,9 +58,7 @@ export class TransactionController {
   }
 
   @Get()
-  @ApiOperation({
-    summary: 'Get transactions as a list API',
-  })
+  @ApiOperation({ summary: 'Get transactions as a list API' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: SwaggerBaseApiResponse([TransactionOutput]),
@@ -85,9 +82,7 @@ export class TransactionController {
   }
 
   @Get(':id')
-  @ApiOperation({
-    summary: 'Get transaction by id API',
-  })
+  @ApiOperation({ summary: 'Get transaction by id API' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: SwaggerBaseApiResponse(TransactionOutput),
@@ -109,9 +104,7 @@ export class TransactionController {
   }
 
   @Patch(':id')
-  @ApiOperation({
-    summary: 'Update transaction API',
-  })
+  @ApiOperation({ summary: 'Update transaction API' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: SwaggerBaseApiResponse(TransactionOutput),
@@ -130,5 +123,19 @@ export class TransactionController {
       input,
     );
     return { data: transaction, meta: {} };
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete transaction by id API' })
+  @ApiResponse({ status: HttpStatus.NO_CONTENT })
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UseGuards(JwtAuthGuard)
+  async deleteTransaction(
+    @ReqContext() ctx: RequestContext,
+    @Param('id') id: number,
+  ): Promise<void> {
+    this.logger.log(ctx, `${this.deleteTransaction.name} was called`);
+
+    return this.txService.deleteTransaction(ctx, id);
   }
 }

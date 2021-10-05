@@ -138,4 +138,23 @@ export class TransactionService {
       excludeExtraneousValues: true,
     });
   }
+
+  async deleteTransaction(ctx: RequestContext, id: number): Promise<void> {
+    this.logger.log(ctx, `${this.deleteTransaction.name} was called`);
+
+    this.logger.log(ctx, `calling ${TransactionRepository.name}.getById`);
+    const transaction = await this.repository.getById(id);
+
+    const actor: Actor = ctx.user;
+
+    const isAllowed = this.aclService
+      .forActor(actor)
+      .canDoAction(Action.Delete, transaction);
+    if (!isAllowed) {
+      throw new UnauthorizedException();
+    }
+
+    this.logger.log(ctx, `calling ${TransactionRepository.name}.remove`);
+    await this.repository.remove(transaction);
+  }
 }
