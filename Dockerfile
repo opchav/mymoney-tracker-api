@@ -1,4 +1,4 @@
-FROM node:16 as builder
+FROM node:18 as builder
 
 WORKDIR /usr/src/app
 
@@ -14,7 +14,7 @@ RUN npm run build
 
 RUN npm prune
 
-FROM node:16
+FROM node:18
 
 ARG APP_ENV=development
 ENV NODE_ENV=${APP_ENV}
